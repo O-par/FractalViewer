@@ -7,7 +7,7 @@
 #define WIDTH  800
 #define HEIGHT 600
 
-// g++ -c main.cpp Rendering.cpp
+// g++ -c main.cpp Rendering.cpp 
 // g++ main.o Rendering.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
 // ./sfml-app
 

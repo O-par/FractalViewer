@@ -15,6 +15,7 @@ IVec2 RENDERSIZE{1920/2, 1080/2};
 Vec2 CENTER{0.0f,0.0f};
 float ZOOM = 1.0f;
 Vec2 CONSTANT = {-0.4, 0.6};
+int MAX_ITERATIONS = 500;
 
 
 // FUNCTIONS:
@@ -144,6 +145,11 @@ int main()
     text_constant.setCharacterSize(30);
     text_constant.setFillColor(sf::Color::White);
     text_constant.setPosition(10, 75);
+
+    sf::Text text_iterations("it: 500", font);
+    text_iterations.setCharacterSize(30);
+    text_iterations.setFillColor(sf::Color::White);
+    text_iterations.setPosition(10, 110);
     
 
     while (window.isOpen())
@@ -173,7 +179,7 @@ int main()
             // keyboard clicks
             if (event.type == sf::Event::KeyPressed)
             {
-
+                // zoom
                 if (event.key.code == sf::Keyboard::Up)
                     ZOOM /= 0.5f;
                     text_zoom.setString("Zoom: " + std::to_string(ZOOM));
@@ -195,13 +201,28 @@ int main()
                 }
                 // im++
                 if (event.key.code == sf::Keyboard::W)
+                {
                     CONSTANT.y += 0.005;
                     text_constant.setString("C: {" + std::to_string(CONSTANT.x) + ", " + std::to_string(CONSTANT.y) + "}");
+                }
                 // im--
                 if (event.key.code == sf::Keyboard::S)
                 {
                     CONSTANT.y -= 0.005;
                     text_constant.setString("C: {" + std::to_string(CONSTANT.x) + ", " + std::to_string(CONSTANT.y) + "}");
+                }
+
+                // it++
+                if (event.key.code == sf::Keyboard::E)
+                {
+                    MAX_ITERATIONS += 100;
+                    text_iterations.setString("it: " + std::to_string(MAX_ITERATIONS));
+                }
+                // it--
+                if (event.key.code == sf::Keyboard::D)
+                {
+                    MAX_ITERATIONS -= 100;
+                    text_iterations.setString("it: " + std::to_string(MAX_ITERATIONS));
                 }
             }
 
@@ -210,15 +231,16 @@ int main()
 
         window.clear();
         
-        render(&window,RENDERSIZE, CONSTANT, CENTER, 1000, ZOOM);
+        render(&window,RENDERSIZE, CONSTANT, CENTER, MAX_ITERATIONS, ZOOM);
 
         
         window.draw(text_zoom);
         window.draw(text_center);
         window.draw(text_constant);
+        window.draw(text_iterations);
         
         window.display();
     }
 
     return 0;
-}
+} 

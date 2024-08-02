@@ -14,7 +14,7 @@ OBJECTS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SOURCES))
 TARGET = $(BINDIR)/sfml-app
 
 # SFML Libraries
-LIBS = -lsfml-graphics-d -lsfml-window -lsfml-system
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Default rule
 all: $(TARGET)

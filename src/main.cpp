@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <algorithm>
+#include <fstream>
 
 
 #include "helper.h"
+
 
 #define Vec2 sf::Vector2f
 #define IVec2 sf::Vector2i
@@ -12,6 +14,7 @@
 IVec2 RENDERSIZE{1920/2, 1080/2};
 Vec2 CENTER{0.0f,0.0f};
 float ZOOM = 1.0f;
+Vec2 CONSTANT = {-0.4, 0.6};
 
 
 // FUNCTIONS:
@@ -113,17 +116,35 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(RENDERSIZE.x, RENDERSIZE.y), "SFML works!");
     
+    
+
+    
+
+    
+
     sf::Font font;
-    if (!font.loadFromFile("FractalViewer/src/Minecraft.ttf"))
+    if (!font.loadFromFile("../FractalViewer/Minecraft.ttf"))
     {
-        std::cerr << "Error loading font\n";
         return -1;
     }
-    sf::Text text("Hello", font);
-    text.setCharacterSize(30);
-    text.setFillColor(sf::Color::Red);
+
     
-    text.setPosition(200, 200);
+    
+    sf::Text text_zoom("Zoom: 1.000000", font);
+    text_zoom.setCharacterSize(30);  // Set a larger character size
+    text_zoom.setFillColor(sf::Color::White);
+    text_zoom.setPosition(10, 5);
+    
+    sf::Text text_center("[0, 0]", font);
+    text_center.setCharacterSize(30);
+    text_center.setFillColor(sf::Color::White);
+    text_center.setPosition(10, 40);
+    
+    sf::Text text_constant("C: {-0.4, 0.6}", font);
+    text_constant.setCharacterSize(30);
+    text_constant.setFillColor(sf::Color::White);
+    text_constant.setPosition(10, 75);
+    
 
     while (window.isOpen())
     {
@@ -144,6 +165,8 @@ int main()
                     float mouseY = float(event.mouseButton.y - RENDERSIZE.y / 2) * scale;
                     CENTER.x += mouseX;
                     CENTER.y += mouseY;
+                    text_center.setString("[" + std::to_string(event.mouseButton.x) + ", " + std::to_string(event.mouseButton.y) + "]" );
+
                 }
             }
             
@@ -152,18 +175,48 @@ int main()
             {
 
                 if (event.key.code == sf::Keyboard::Up)
-                    ZOOM /= 0.8f;
+                    ZOOM /= 0.5f;
+                    text_zoom.setString("Zoom: " + std::to_string(ZOOM));
                 if (event.key.code == sf::Keyboard::Down)
-                    ZOOM *= 0.8f;
+                    ZOOM *= 0.5f;
+                    text_zoom.setString("Zoom: " + std::to_string(ZOOM));
+
+                // real++
+                if (event.key.code == sf::Keyboard::Q)
+                {
+                    CONSTANT.x += 0.005;
+                    text_constant.setString("C: {" + std::to_string(CONSTANT.x) + ", " + std::to_string(CONSTANT.y) + "}");
+                }
+                // real--
+                if (event.key.code == sf::Keyboard::A)
+                {
+                    CONSTANT.x -= 0.005;
+                    text_constant.setString("C: {" + std::to_string(CONSTANT.x) + ", " + std::to_string(CONSTANT.y) + "}");
+                }
+                // im++
+                if (event.key.code == sf::Keyboard::W)
+                    CONSTANT.y += 0.005;
+                    text_constant.setString("C: {" + std::to_string(CONSTANT.x) + ", " + std::to_string(CONSTANT.y) + "}");
+                // im--
+                if (event.key.code == sf::Keyboard::S)
+                {
+                    CONSTANT.y -= 0.005;
+                    text_constant.setString("C: {" + std::to_string(CONSTANT.x) + ", " + std::to_string(CONSTANT.y) + "}");
+                }
             }
 
         
         }
 
         window.clear();
-        Vec2 constant = {-0.4, 0.6};
-        render(&window,RENDERSIZE, constant, CENTER, 1000, ZOOM);
-        window.draw(text);
+        
+        render(&window,RENDERSIZE, CONSTANT, CENTER, 1000, ZOOM);
+
+        
+        window.draw(text_zoom);
+        window.draw(text_center);
+        window.draw(text_constant);
+        
         window.display();
     }
 

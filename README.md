@@ -77,7 +77,3 @@ This project is open source and available under the MIT License.
 
 - Inspired by the beauty of fractal geometry.
 - Built with the SFML library for graphics and input handling.
-
----
-
-Let me know if you'd like to tweak or add more sections to the README!

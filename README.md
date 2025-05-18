@@ -1,5 +1,8 @@
 # Fractal Viewer
 
+![julia image](./julia1.png)
+![julia image](./julia2.png)
+
 Fractal Viewer is a C++ application using SFML to render and explore the Julia set fractals. It features smooth zooming, customizable constants, and real-time updates for exploring fractal geometry.
 
 ## Features
@@ -64,10 +67,6 @@ Fractal Viewer is a C++ application using SFML to render and explore the Julia s
 - *Color Mapping*: The number of iterations required for the value to "escape" (modulus > 2) determines the pixel color, creating the fractal's detailed visuals.
 - *Smooth Color Transitions*: The color is interpolated for smoother gradients, enhancing visual appeal.
 
-## Example Screenshots
-
-![julia image](./julia1.png)
-![julia image](./julia2.png)
 
 ## License
 
